@@ -1,0 +1,32 @@
+import discord
+
+# Créer un objet de la classe Bot
+client = discord.Client()
+
+# Dictionnaire pour stocker les identifiants des premiers messages de chaque post
+first_messages = {}
+
+# Fonction appelée lorsque le bot est prêt
+@client.event
+async def on_ready():
+    print('Bot prêt.')
+
+# Fonction appelée à chaque fois qu'un nouveau message est envoyé sur le serveur
+@client.event
+async def on_message(message):
+    # Vérifie si le message est envoyé dans un salon ayant pour nom 🍺'sorties
+    if message.channel.name == "🍺'sorties":
+        # Vérifie si c'est le premier message du post
+        if message.id not in first_messages:
+            # Enregistre l'identifiant du premier message du post
+            first_messages[message.id] = True
+            
+            # Liste des réactions à ajouter
+            reactions = ['✅', '📃', '❌']
+            
+            # Ajoute chaque réaction au message
+            for reaction in reactions:
+                await message.add_reaction(reaction)
+
+# Lancer le bot avec son token
+client.run('TOKEN que je ne connais pas')
